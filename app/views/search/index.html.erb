@@ -1,0 +1,17 @@
+<h1>Welcome to the Search Page</h1>
+<h1>Total number of characters belonging to the <%= @nation.titleize %> is <%= @total_number %></h1>
+
+<h1>The First 25 Characters:</h1>
+
+<% @first_25_char.each do |char| %>
+  <section id="char-<%= char.name %>">
+  Name: <%= char.name  %><br>
+  Allies: <%= char.allies %><br>
+  Enemies: <%= char.enemies  %><br>
+  Affiliations: <%= char.affiliation %><br>
+  <% if char.photo_url != nil %>
+    Photo:<br>
+    <img src="<%= char.photo_url %>" alt="<%= char.name %>"><br>
+  <% end %>
+<% end %>
+  </section>

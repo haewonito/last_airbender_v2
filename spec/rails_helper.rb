@@ -5,6 +5,7 @@ require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require 'webmock/rspec'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -63,4 +64,52 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+end
+
+VCR.configure do |config|
+    config.allow_http_connections_when_no_cassette = true
+    config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
+    config.hook_into :webmock
+    config.filter_sensitive_data("Hide My Key") { ENV["govt_api_key"] }  #if you want to hide the key in the cassete
+    config.configure_rspec_metadata!  #it will name the cassette automatically under the folder of spec test name, with folder named with the test name.
+end
+
+def character_data_for_test
+  [
+    {
+    "_id": "5cf5679a915ecad153ab68fd",
+    "allies": [
+    "Ozai"
+    ],
+    "enemies": [
+    "Earth Kingdom"
+    ],
+    "name": "Chan (Fire Nation admiral)",
+    "affiliation": "Fire Nation Navy"
+    },
+    {
+    "_id": "5cf5679a915ecad153ab6906",
+    "allies": [
+    "Ty Lee"
+    ],
+    "enemies": [
+    "Appa"
+    ],
+    "photoUrl": "https://vignette.wikia.nocookie.net/avatar/images/a/a5/Circus_master.png/revision/latest?cb=20130706153819",
+    "name": "Circus master",
+    "affiliation": "Fire Nation circus"
+    },
+    {
+    "_id": "5cf5679a915ecad153ab68ee",
+    "allies": [
+    "Ozai"
+    ],
+    "enemies": [
+    "Zuko"
+    ],
+    "photoUrl": "https://vignette.wikia.nocookie.net/avatar/images/7/76/Bujing.png/revision/latest?cb=20130714152817",
+    "name": "Bujing",
+    "affiliation": "Fire Nation military"
+    }
+    ]
 end
